@@ -9,7 +9,9 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class TodoController {
@@ -31,6 +33,20 @@ public class TodoController {
     public String showForm(Model model) {
         model.addAttribute("todo", new Todo());
         return "form";
+    }
+
+    @GetMapping("/edit/{id}")
+    public String editForm(@PathVariable("id") Long id, Model model) {
+        Todo todo = todoRepository.findById(id).orElse(new Todo());
+        model.addAttribute("todo", todo);
+        return "form";
+    }
+
+    @GetMapping("/delete/{id}")
+    public String deleteTodo(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
+        todoRepository.deleteById(id);
+        redirectAttributes.addFlashAttribute("message", "Xóa thành công!");
+        return "redirect:/list";
     }
 
     @PostMapping("/form")
