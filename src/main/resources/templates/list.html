@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <title>Todo List</title>
+    <title th:text="#{app.title}">Todo List</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
@@ -9,30 +9,34 @@
 </head>
 <body>
 <div class="container mt-5">
+    <div class="text-right mb-2">
+        <a href="?lang=vi">Tiếng Việt</a> | <a href="?lang=en">English</a>
+    </div>
+
     <div th:if="${message}" class="alert alert-success mt-3" th:text="${message}"></div>
 
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="mb-0">Todo App</h2>
-        <a class="btn btn-primary" th:href="@{/form}">Thêm công việc</a>
+        <h2 class="mb-0" th:text="#{list.owner(${ownerName})}">Todo App</h2>
+        <a class="btn btn-primary" th:href="@{/form}" th:text="#{list.add}">Thêm công việc</a>
     </div>
 
     <div class="card shadow-sm">
         <div class="card-body">
-            <h5 class="mb-3">Danh sách công việc</h5>
+            <h5 class="mb-3" th:text="#{app.title}">Danh sách công việc</h5>
             <table class="table table-bordered">
                 <thead class="thead-dark">
                 <tr>
-                    <th>ID</th>
-                    <th>Nội dung</th>
-                    <th>Hạn</th>
-                    <th>Trạng thái</th>
-                    <th>Ưu tiên</th>
-                    <th>Hành động</th>
+                    <th th:text="#{list.id}">ID</th>
+                    <th th:text="#{list.content}">Nội dung</th>
+                    <th th:text="#{list.due}">Hạn</th>
+                    <th th:text="#{list.status}">Trạng thái</th>
+                    <th th:text="#{list.priority}">Ưu tiên</th>
+                    <th th:text="#{list.action}">Hành động</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:if="${#lists.isEmpty(todos)}">
-                    <td colspan="6" class="text-center text-muted">Chưa có công việc nào</td>
+                    <td colspan="6" class="text-center text-muted" th:text="#{list.no.task}">Chưa có công việc nào</td>
                 </tr>
                 <tr th:each="t : ${todos}">
                     <td th:text="${t.id}"></td>
@@ -48,9 +52,9 @@
                         <span th:if="${t.priority == 'HIGH'}">HIGH</span>
                     </td>
                     <td>
-                        <a th:href="@{/edit/{id}(id=${t.id})}" class="btn btn-warning btn-sm">Sửa</a>
+                        <a th:href="@{/edit/{id}(id=${t.id})}" class="btn btn-warning btn-sm" th:text="#{list.edit}">Sửa</a>
                         <a th:href="@{/delete/{id}(id=${t.id})}" class="btn btn-danger btn-sm"
-                           onclick="return confirm('Bạn có chắc muốn xóa công việc này?');">Xóa</a>
+                           th:attr="onclick='return confirm(\'' + #{list.delete.confirm} + '\');'" th:text="#{list.delete}">Xóa</a>
                     </td>
                 </tr>
                 </tbody>
@@ -60,4 +64,3 @@
 </div>
 </body>
 </html>
-

@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <title>Todo Form</title>
+    <title th:text="#{form.title}">Todo Form</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
@@ -9,26 +9,29 @@
 </head>
 <body>
 <div class="container mt-5">
-    <h2 class="text-center mb-4">Thêm công việc</h2>
+    <div class="text-right mb-2">
+        <a href="?lang=vi">Tiếng Việt</a> | <a href="?lang=en">English</a>
+    </div>
+    <h2 class="text-center mb-4" th:text="#{form.title}">Thêm công việc</h2>
 
     <div class="card shadow-sm">
         <div class="card-body">
             <form th:action="@{/form}" method="post" th:object="${todo}">
                 <input type="hidden" th:field="*{id}">
                 <div class="form-group">
-                    <label for="content">Nội dung</label>
+                    <label for="content" th:text="#{form.content}">Nội dung</label>
                     <input id="content" type="text" class="form-control" th:field="*{content}">
                     <small class="text-danger" th:errors="*{content}"></small>
                 </div>
 
                 <div class="form-group">
-                    <label for="dueDate">Hạn</label>
+                    <label for="dueDate" th:text="#{form.due}">Hạn</label>
                     <input id="dueDate" type="date" class="form-control" th:field="*{dueDate}">
                     <small class="text-danger" th:errors="*{dueDate}"></small>
                 </div>
 
                 <div class="form-group">
-                    <label for="status">Trạng thái</label>
+                    <label for="status" th:text="#{form.status}">Trạng thái</label>
                     <select id="status" class="form-control" th:field="*{status}">
                         <option value="PENDING">PENDING</option>
                         <option value="DONE">DONE</option>
@@ -36,7 +39,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="priority">Ưu tiên</label>
+                    <label for="priority" th:text="#{form.priority}">Ưu tiên</label>
                     <select id="priority" class="form-control" th:field="*{priority}">
                         <option value="LOW">LOW</option>
                         <option value="MEDIUM">MEDIUM</option>
@@ -45,8 +48,8 @@
                 </div>
 
                 <div class="d-flex">
-                    <button class="btn btn-primary">Lưu công việc</button>
-                    <a class="btn btn-secondary ml-2" th:href="@{/list}">Quay lại danh sách</a>
+                    <button class="btn btn-primary" th:text="#{form.save}">Lưu công việc</button>
+                    <a class="btn btn-secondary ml-2" th:href="@{/list}" th:text="#{form.back}">Quay lại danh sách</a>
                 </div>
             </form>
         </div>
